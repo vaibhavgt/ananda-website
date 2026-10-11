@@ -1,0 +1,10 @@
+node_modules
+dist
+.DS_Store
+*.local
+.env
+.env.*
+.vercel
+Ananda Kalapatha · Figma Export
+public/assets/raw
+.cursor
