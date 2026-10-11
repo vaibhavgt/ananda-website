@@ -64,6 +64,13 @@
         ANANDA<br />KALAPATHA
       </p>
 
+      <!-- Scroll anchors (must be real boxes — not display:contents) -->
+      <div id="origen" class="scroll-target" style="top:calc(1700/6920*100%)"></div>
+      <div id="experiencias" class="scroll-target" style="top:calc(2609/6920*100%)"></div>
+      <div id="camino" class="scroll-target" style="top:calc(3519/6920*100%)"></div>
+      <div id="filosofia" class="scroll-target" style="top:calc(4846/6920*100%)"></div>
+      <div id="contacto" class="scroll-target" style="top:calc(5726/6920*100%)"></div>
+
       <!-- Nav -->
       <nav
         class="abs font-ui font-medium text-beige tracking-[0.1em] whitespace-nowrap"
@@ -71,11 +78,11 @@
         aria-label="Principal"
       >
         <a href="#origen" class="hover:text-terracota">EL ORIGEN</a>
-        <span class="mx-1 opacity-70">|</span>
+        <span class="mx-1 opacity-70" aria-hidden="true">|</span>
         <a href="#camino" class="hover:text-terracota">EL CAMINO</a>
-        <span class="mx-1 opacity-70">|</span>
+        <span class="mx-1 opacity-70" aria-hidden="true">|</span>
         <a href="#experiencias" class="hover:text-terracota">EXPERIENCIAS</a>
-        <span class="mx-1 opacity-70">|</span>
+        <span class="mx-1 opacity-70" aria-hidden="true">|</span>
         <a href="#contacto" class="hover:text-terracota">CONTACTO</a>
       </nav>
 
@@ -154,7 +161,7 @@
       </p>
 
       <!-- Origen -->
-      <section id="origen" class="contents">
+      <section class="contents" aria-labelledby="origen-heading">
         <p
           class="abs font-ui font-medium text-terracota tracking-[0.2em]"
           style="left:calc(267/1440*100%);top:calc(1731/6920*100%);transform:translateX(-50%);font-size:clamp(12px,1.67vw,24px)"
@@ -168,6 +175,7 @@
           style="left:calc(97/1440*100%);top:calc(1782/6920*100%);width:calc(107/1440*100%)"
         />
         <h2
+          id="origen-heading"
           class="abs font-display text-terracota leading-[1.04]"
           style="left:calc(97/1440*100%);top:calc(1812/6920*100%);font-size:clamp(28px,3.33vw,48px)"
         >
@@ -206,7 +214,7 @@
       </section>
 
       <!-- Experiencias -->
-      <section id="experiencias" class="contents">
+      <section class="contents" aria-label="Experiencias">
         <p
           class="abs font-ui font-medium text-terracota tracking-[0.2em]"
           style="left:calc(66/1440*100%);top:calc(2638/6920*100%);font-size:clamp(12px,1.67vw,24px)"
@@ -290,7 +298,7 @@
       </section>
 
       <!-- Camino -->
-      <section id="camino" class="contents">
+      <section class="contents" aria-label="El camino">
         <div class="abs overflow-hidden" style="left:0;top:calc(3519/6920*100%);width:calc(774/1440*100%);height:calc(1111/6920*100%)">
           <img
             src="/assets/images/camino-portrait.png"
@@ -343,7 +351,7 @@
       </section>
 
       <!-- Filosofía -->
-      <section id="filosofia" class="contents">
+      <section class="contents" aria-label="La filosofía">
         <div class="abs bg-musgo" style="left:0;top:calc(4846/6920*100%);width:100%;height:calc(798/6920*100%)"></div>
         <p class="abs font-ui font-medium text-oliva tracking-[0.2em]" style="left:calc(86/1440*100%);top:calc(4901/6920*100%);font-size:clamp(12px,1.67vw,24px)">
           LA FILOSOFÍA
@@ -373,7 +381,7 @@
       </section>
 
       <!-- Contacto -->
-      <section id="contacto" class="contents">
+      <section class="contents" aria-label="Contacto">
         <p class="abs font-ui font-medium text-terracota tracking-[0.2em]" style="left:calc(175/1440*100%);top:calc(5726/6920*100%);transform:translateX(-50%);font-size:clamp(12px,1.67vw,24px)">
           HABLEMOS
         </p>
@@ -554,7 +562,7 @@
         </div>
       </section>
 
-      <section class="bg-musgo px-5 py-14 text-beige">
+      <section id="m-filosofia" class="bg-musgo px-5 py-14 text-beige">
         <p class="font-ui text-xs tracking-[0.2em] text-oliva">LA FILOSOFÍA</p>
         <h2 class="mt-3 font-display text-4xl">Lo que sostiene el camino</h2>
         <div class="mt-10 space-y-8">

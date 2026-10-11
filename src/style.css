@@ -42,6 +42,45 @@ body {
 
 .artboard .abs {
   position: absolute;
+  pointer-events: none;
+}
+
+/* Clickable controls must sit above decorative layers (beat .abs pointer-events:none) */
+.artboard a,
+.artboard nav,
+.artboard button,
+.artboard input,
+.artboard textarea,
+.artboard label,
+.artboard .btn-cta,
+.artboard .link-arrow,
+.artboard nav.abs,
+.artboard a.abs,
+.artboard button.abs,
+.artboard input.abs,
+.artboard textarea.abs,
+.artboard label.abs {
+  pointer-events: auto;
+  z-index: 30;
+}
+
+.artboard nav.abs {
+  z-index: 50;
+}
+
+.artboard a.abs,
+.artboard .btn-cta {
+  z-index: 40;
+}
+
+/* Real boxes for hash navigation (display:contents cannot be scrolled to) */
+.scroll-target {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  pointer-events: none;
+  visibility: hidden;
 }
 
 .btn-cta {
