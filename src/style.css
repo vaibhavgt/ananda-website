@@ -16,7 +16,8 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* Mobile uses smooth via JS; desktop artboard needs precise jumps */
+  scroll-behavior: auto;
 }
 
 body {
@@ -73,14 +74,53 @@ body {
   z-index: 40;
 }
 
-/* Real boxes for hash navigation (display:contents cannot be scrolled to) */
+/* Markers kept for progressive enhancement; JS uses artboard ratios */
 .scroll-target {
   position: absolute;
   left: 0;
-  width: 100%;
+  width: 1px;
   height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
   pointer-events: none;
-  visibility: hidden;
+}
+
+/* Always-available desktop menu (artboard nav alone is easy to miss / cover) */
+.desktop-topnav {
+  display: none;
+}
+
+@media (min-width: 901px) {
+  .desktop-topnav {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem clamp(1rem, 4vw, 3rem);
+    background: color-mix(in srgb, var(--color-beige) 88%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-musgo) 14%, transparent);
+    transform: translateY(-110%);
+    transition: transform 0.28s ease;
+  }
+
+  .desktop-topnav.is-visible {
+    transform: translateY(0);
+  }
+
+  .desktop-topnav a {
+    color: var(--color-musgo);
+    text-decoration: none;
+  }
+
+  .desktop-topnav a:hover {
+    color: var(--color-terracota);
+  }
 }
 
 .btn-cta {

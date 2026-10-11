@@ -2,38 +2,83 @@ import "./style.css";
 
 const DESKTOP_QUERY = "(min-width: 901px)";
 
-/** Map logical section → desktop / mobile element ids */
-const SECTION_MAP = {
-  origen: { desktop: "origen", mobile: "m-origen" },
-  camino: { desktop: "camino", mobile: "m-camino" },
-  experiencias: { desktop: "experiencias", mobile: "m-experiencias" },
-  filosofia: { desktop: "filosofia", mobile: "m-filosofia" },
-  contacto: { desktop: "contacto", mobile: "m-contacto" },
-  yoga: { desktop: "yoga", mobile: "m-experiencias" },
-  masajes: { desktop: "masajes", mobile: "m-experiencias" },
-  viajes: { desktop: "viajes", mobile: "m-experiencias" },
+/** Figma Y / artboard height (6920) — desktop scroll positions */
+const DESKTOP_RATIOS = {
+  origen: 1700 / 6920,
+  experiencias: 2580 / 6920,
+  camino: 3480 / 6920,
+  filosofia: 4820 / 6920,
+  contacto: 5700 / 6920,
+  yoga: 3000 / 6920,
+  masajes: 3000 / 6920,
+  viajes: 3000 / 6920,
+};
+
+const MOBILE_IDS = {
+  origen: "m-origen",
+  camino: "m-camino",
+  experiencias: "m-experiencias",
+  filosofia: "m-filosofia",
+  contacto: "m-contacto",
+  yoga: "m-experiencias",
+  masajes: "m-experiencias",
+  viajes: "m-experiencias",
 };
 
 function isDesktop() {
   return window.matchMedia(DESKTOP_QUERY).matches;
 }
 
-function resolveSectionId(raw) {
-  const key = raw.replace(/^m-/, "");
-  const entry = SECTION_MAP[key];
-  if (!entry) return raw;
-  return isDesktop() ? entry.desktop : entry.mobile;
+function logicalKey(raw) {
+  return String(raw || "").replace(/^m-/, "").replace(/^#/, "");
+}
+
+function syncLayoutVisibility() {
+  const artboard = document.querySelector(".artboard");
+  const mobile = document.querySelector(".mobile-site");
+  const desktop = isDesktop();
+
+  if (artboard) {
+    artboard.toggleAttribute("inert", !desktop);
+    artboard.setAttribute("aria-hidden", desktop ? "false" : "true");
+  }
+  if (mobile) {
+    mobile.toggleAttribute("inert", desktop);
+    mobile.setAttribute("aria-hidden", desktop ? "true" : "false");
+  }
 }
 
 function scrollToSection(rawId, { updateHash = true } = {}) {
-  const targetId = resolveSectionId(rawId);
-  const el = document.getElementById(targetId);
-  if (!el) return false;
+  const key = logicalKey(rawId);
+  if (!key) return false;
 
-  el.scrollIntoView({ behavior: "smooth", block: "start" });
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+  const behavior = reduceMotion ? "auto" : "smooth";
+
+  if (isDesktop()) {
+    const artboard = document.querySelector(".artboard");
+    const ratio = DESKTOP_RATIOS[key];
+    if (!artboard || ratio == null) return false;
+
+    const top = Math.max(
+      0,
+      artboard.offsetTop + artboard.offsetHeight * ratio - 8,
+    );
+    // Instant positioning — smooth scroll is unreliable on the scaled artboard
+    document.documentElement.scrollTop = top;
+    document.body.scrollTop = top;
+    window.scrollTo(0, top);
+  } else {
+    const id = MOBILE_IDS[key] || key;
+    const el = document.getElementById(id);
+    if (!el) return false;
+    el.scrollIntoView({ behavior, block: "start" });
+  }
+
   if (updateHash) {
-    const logical = rawId.replace(/^m-/, "");
-    history.replaceState(null, "", `#${logical}`);
+    history.replaceState(null, "", `#${key}`);
   }
   return true;
 }
@@ -41,29 +86,34 @@ function scrollToSection(rawId, { updateHash = true } = {}) {
 function hashFromHref(href) {
   if (!href) return null;
   try {
-    const url = new URL(href, window.location.origin);
-    if (url.pathname !== "/" && url.pathname !== "/index.html") return null;
-    return url.hash ? url.hash.slice(1) : null;
+    const url = new URL(href, window.location.href);
+    const path = url.pathname.replace(/\/$/, "") || "/";
+    if (path !== "/" && path !== "/index.html") return null;
+    return url.hash ? logicalKey(url.hash) : null;
   } catch {
-    if (href.startsWith("#")) return href.slice(1);
-    return null;
+    return href.startsWith("#") ? logicalKey(href) : null;
   }
 }
 
 document.addEventListener("click", (event) => {
   const link = event.target.closest("a[href]");
   if (!link) return;
-  const hash = hashFromHref(link.getAttribute("href"));
-  if (!hash || !SECTION_MAP[hash.replace(/^m-/, "")]) return;
 
-  // Same-page hash navigation
-  if (
+  const hrefAttr = link.getAttribute("href") || "";
+  const hash = hashFromHref(hrefAttr);
+  if (!hash || !(hash in DESKTOP_RATIOS || hash in MOBILE_IDS)) return;
+
+  const sameDocument =
+    hrefAttr.startsWith("#") ||
     link.pathname === window.location.pathname ||
-    link.getAttribute("href").startsWith("#")
-  ) {
-    event.preventDefault();
-    scrollToSection(hash);
-  }
+    ((link.pathname === "/" || link.pathname === "/index.html") &&
+      (window.location.pathname === "/" ||
+        window.location.pathname === "/index.html"));
+
+  if (!sameDocument) return;
+
+  event.preventDefault();
+  scrollToSection(hash);
 });
 
 function handleSubmit(event) {
@@ -96,18 +146,43 @@ menuPanel?.querySelectorAll("a").forEach((link) => {
   });
 });
 
-// Arrive with /#origen from another page, or refresh with hash
 function scrollFromLocationHash() {
-  const hash = window.location.hash.slice(1);
+  const hash = logicalKey(window.location.hash);
   if (!hash) return;
-  // Wait a tick for layout/fonts
+  // Wait for fonts/layout so artboard height is final; repeat once after paint
+  const run = () => scrollToSection(hash, { updateHash: false });
   requestAnimationFrame(() => {
-    setTimeout(() => scrollToSection(hash, { updateHash: false }), 50);
+    run();
+    setTimeout(run, 120);
+    setTimeout(run, 400);
   });
 }
 
+const topnav = document.querySelector("[data-desktop-topnav]");
+
+function syncTopnav() {
+  if (!topnav) return;
+  if (!isDesktop()) {
+    topnav.classList.remove("is-visible");
+    return;
+  }
+  // Show sticky menu once the hero artboard nav scrolls away
+  const show = window.scrollY > window.innerHeight * 0.55;
+  topnav.classList.toggle("is-visible", show);
+}
+
+syncLayoutVisibility();
+syncTopnav();
+window.addEventListener("resize", () => {
+  syncLayoutVisibility();
+  syncTopnav();
+});
+window.addEventListener("scroll", syncTopnav, { passive: true });
 window.addEventListener("load", scrollFromLocationHash);
 window.addEventListener("hashchange", () => {
-  const hash = window.location.hash.slice(1);
+  const hash = logicalKey(window.location.hash);
   if (hash) scrollToSection(hash, { updateHash: false });
 });
+
+// Expose for debugging / manual QA
+window.__anandaScrollTo = scrollToSection;
