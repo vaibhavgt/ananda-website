@@ -91,9 +91,10 @@ function scrollToSection(rawId, { updateHash = true } = {}) {
     const artboard = document.querySelector(".artboard-mobile");
     const ratio = MOBILE_RATIOS[key];
     if (artboard && ratio != null) {
+      // Leave room above section titles so letterforms aren't clipped by the viewport edge
       const top = Math.max(
         0,
-        artboard.offsetTop + artboard.offsetHeight * ratio - 8,
+        artboard.offsetTop + artboard.offsetHeight * ratio - 48,
       );
       document.documentElement.scrollTop = top;
       document.body.scrollTop = top;
