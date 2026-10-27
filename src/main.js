@@ -14,16 +14,16 @@ const DESKTOP_RATIOS = {
   viajes: 3000 / 6920,
 };
 
-/** Figma Y / mobile artboard height (8888) — Home - Mobile */
+/** Figma Y / mobile artboard height (8064 after empty-footer crop) */
 const MOBILE_RATIOS = {
-  origen: 1743 / 8888,
-  experiencias: 2833 / 8888,
-  camino: 4089 / 8888,
-  filosofia: 5088 / 8888,
-  contacto: 6153 / 8888,
-  yoga: 3111 / 8888,
-  masajes: 3418 / 8888,
-  viajes: 3728 / 8888,
+  origen: 1743 / 8064,
+  experiencias: 2833 / 8064,
+  camino: 4089 / 8064,
+  filosofia: 5088 / 8064,
+  contacto: 6153 / 8064,
+  yoga: 3111 / 8064,
+  masajes: 3418 / 8064,
+  viajes: 3728 / 8064,
 };
 
 const MOBILE_IDS = {
