@@ -1,48 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://anandakalapatha.com/</loc>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://anandakalapatha.com/" />
   </url>
   <url>
     <loc>https://anandakalapatha.com/experiencias.html</loc>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://anandakalapatha.com/experiencias.html" />
   </url>
   <url>
     <loc>https://anandakalapatha.com/yoga.html</loc>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://anandakalapatha.com/yoga.html" />
   </url>
   <url>
     <loc>https://anandakalapatha.com/masajes.html</loc>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://anandakalapatha.com/masajes.html" />
   </url>
   <url>
     <loc>https://anandakalapatha.com/viajes.html</loc>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://anandakalapatha.com/viajes.html" />
   </url>
   <url>
     <loc>https://anandakalapatha.com/blog.html</loc>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://anandakalapatha.com/aviso-legal.html</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  <url>
-    <loc>https://anandakalapatha.com/politica-privacidad.html</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  <url>
-    <loc>https://anandakalapatha.com/politica-cookies.html</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.2</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://anandakalapatha.com/blog.html" />
   </url>
 </urlset>

@@ -41,7 +41,20 @@ body {
   overflow: hidden;
 }
 
-.artboard .abs {
+/* Mobile artboard: 390 × 8888 — Home - Mobile frame */
+.artboard-mobile {
+  --aw: 390;
+  --ah: 8888;
+  position: relative;
+  width: min(100vw, 390px);
+  margin-inline: auto;
+  aspect-ratio: 390 / 8888;
+  background: var(--color-beige);
+  overflow: hidden;
+}
+
+.artboard .abs,
+.artboard-mobile .abs {
   position: absolute;
   pointer-events: none;
 }
@@ -60,18 +73,90 @@ body {
 .artboard button.abs,
 .artboard input.abs,
 .artboard textarea.abs,
-.artboard label.abs {
+.artboard label.abs,
+.artboard-mobile a,
+.artboard-mobile nav,
+.artboard-mobile button,
+.artboard-mobile input,
+.artboard-mobile textarea,
+.artboard-mobile label,
+.artboard-mobile .btn-cta,
+.artboard-mobile .link-arrow,
+.artboard-mobile nav.abs,
+.artboard-mobile a.abs,
+.artboard-mobile button.abs,
+.artboard-mobile input.abs,
+.artboard-mobile textarea.abs,
+.artboard-mobile label.abs {
   pointer-events: auto;
   z-index: 30;
 }
 
-.artboard nav.abs {
+.artboard nav.abs,
+.artboard-mobile nav.abs {
   z-index: 50;
 }
 
 .artboard a.abs,
-.artboard .btn-cta {
+.artboard .btn-cta,
+.artboard-mobile a.abs,
+.artboard-mobile .btn-cta {
   z-index: 40;
+}
+
+.btn-cta-mobile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-terracota);
+  border-radius: 5px;
+  color: var(--color-terracota);
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: clamp(12px, 3.6vw, 14px);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  background: transparent;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.btn-cta-mobile:hover {
+  background: var(--color-terracota);
+  color: var(--color-beige);
+}
+
+.mobile-menu-fab {
+  position: fixed;
+  top: 0.85rem;
+  right: 1rem;
+  z-index: 60;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: var(--color-terracota);
+  background: color-mix(in srgb, var(--color-beige) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border: 0;
+  padding: 0.55rem 0.75rem;
+  cursor: pointer;
+}
+
+.mobile-menu-panel {
+  position: fixed;
+  top: 3.25rem;
+  right: 1rem;
+  left: 1rem;
+  z-index: 55;
+  background: var(--color-beige);
+  border: 1px solid color-mix(in srgb, var(--color-musgo) 18%, transparent);
+  padding: 1rem 1.25rem;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  color: var(--color-musgo);
 }
 
 /* Markers kept for progressive enhancement; JS uses artboard ratios */
@@ -83,6 +168,10 @@ body {
   overflow: hidden;
   clip: rect(0 0 0 0);
   pointer-events: none;
+}
+
+.artboard-mobile .scroll-target {
+  position: absolute;
 }
 
 /* Always-available desktop menu (artboard nav alone is easy to miss / cover) */
@@ -189,6 +278,17 @@ body {
   .mobile-site {
     display: block;
   }
+
+  .desktop-topnav {
+    display: none !important;
+  }
+}
+
+@media (min-width: 901px) {
+  .mobile-menu-fab,
+  .mobile-menu-panel {
+    display: none !important;
+  }
 }
 
 /* Shared chrome for inner pages */
@@ -243,12 +343,14 @@ body {
   color: var(--color-amarillo);
 }
 
+/* Card PNGs already include arch frame + badge — don't re-mask them */
 .page-hero-arch {
-  width: min(100%, 420px);
-  aspect-ratio: 3 / 4;
-  object-fit: cover;
-  border-radius: 999px 999px 24px 24px;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+  display: block;
+  width: min(100%, 280px);
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+  background: transparent;
 }
 
 .prose-page {

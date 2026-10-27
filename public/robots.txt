@@ -1,4 +1,9 @@
 User-agent: *
 Allow: /
 
+# Legal drafts are noindex — keep them out of crawl priority
+Disallow: /aviso-legal.html
+Disallow: /politica-privacidad.html
+Disallow: /politica-cookies.html
+
 Sitemap: https://anandakalapatha.com/sitemap.xml

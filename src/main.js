@@ -14,6 +14,18 @@ const DESKTOP_RATIOS = {
   viajes: 3000 / 6920,
 };
 
+/** Figma Y / mobile artboard height (8888) — Home - Mobile */
+const MOBILE_RATIOS = {
+  origen: 1743 / 8888,
+  experiencias: 2833 / 8888,
+  camino: 4089 / 8888,
+  filosofia: 5088 / 8888,
+  contacto: 6153 / 8888,
+  yoga: 3111 / 8888,
+  masajes: 3418 / 8888,
+  viajes: 3728 / 8888,
+};
+
 const MOBILE_IDS = {
   origen: "m-origen",
   camino: "m-camino",
@@ -36,6 +48,7 @@ function logicalKey(raw) {
 function syncLayoutVisibility() {
   const artboard = document.querySelector(".artboard");
   const mobile = document.querySelector(".mobile-site");
+  const mobileArtboard = document.querySelector(".artboard-mobile");
   const desktop = isDesktop();
 
   if (artboard) {
@@ -45,6 +58,10 @@ function syncLayoutVisibility() {
   if (mobile) {
     mobile.toggleAttribute("inert", desktop);
     mobile.setAttribute("aria-hidden", desktop ? "true" : "false");
+  }
+  if (mobileArtboard) {
+    mobileArtboard.toggleAttribute("inert", desktop);
+    mobileArtboard.setAttribute("aria-hidden", desktop ? "true" : "false");
   }
 }
 
@@ -71,10 +88,22 @@ function scrollToSection(rawId, { updateHash = true } = {}) {
     document.body.scrollTop = top;
     window.scrollTo(0, top);
   } else {
-    const id = MOBILE_IDS[key] || key;
-    const el = document.getElementById(id);
-    if (!el) return false;
-    el.scrollIntoView({ behavior, block: "start" });
+    const artboard = document.querySelector(".artboard-mobile");
+    const ratio = MOBILE_RATIOS[key];
+    if (artboard && ratio != null) {
+      const top = Math.max(
+        0,
+        artboard.offsetTop + artboard.offsetHeight * ratio - 8,
+      );
+      document.documentElement.scrollTop = top;
+      document.body.scrollTop = top;
+      window.scrollTo(0, top);
+    } else {
+      const id = MOBILE_IDS[key] || key;
+      const el = document.getElementById(id);
+      if (!el) return false;
+      el.scrollIntoView({ behavior, block: "start" });
+    }
   }
 
   if (updateHash) {
@@ -101,7 +130,7 @@ document.addEventListener("click", (event) => {
 
   const hrefAttr = link.getAttribute("href") || "";
   const hash = hashFromHref(hrefAttr);
-  if (!hash || !(hash in DESKTOP_RATIOS || hash in MOBILE_IDS)) return;
+  if (!hash || !(hash in DESKTOP_RATIOS || hash in MOBILE_RATIOS || hash in MOBILE_IDS)) return;
 
   const sameDocument =
     hrefAttr.startsWith("#") ||
@@ -116,16 +145,43 @@ document.addEventListener("click", (event) => {
   scrollToSection(hash);
 });
 
-function handleSubmit(event) {
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xqppqnyg";
+
+async function handleSubmit(event) {
   event.preventDefault();
-  const data = new FormData(event.currentTarget);
+  const form = event.currentTarget;
+  const submitBtn = form.querySelector('[type="submit"]');
+  const data = new FormData(form);
   const nombre = String(data.get("nombre") || "").trim();
-  alert(
-    nombre
-      ? `Gracias, ${nombre}. Te responderé lo antes posible.`
-      : "Gracias. Te responderé lo antes posible.",
-  );
-  event.currentTarget.reset();
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.setAttribute("aria-busy", "true");
+  }
+
+  try {
+    const res = await fetch(FORMSPREE_ENDPOINT, {
+      method: "POST",
+      body: data,
+      headers: { Accept: "application/json" },
+    });
+    if (!res.ok) throw new Error(`Formspree ${res.status}`);
+    form.reset();
+    alert(
+      nombre
+        ? `Gracias, ${nombre}. Te responderé lo antes posible.`
+        : "Gracias. Te responderé lo antes posible.",
+    );
+  } catch {
+    alert(
+      "No se pudo enviar el mensaje. Inténtalo de nuevo o escríbeme a hola@anandakalapatha.com.",
+    );
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.removeAttribute("aria-busy");
+    }
+  }
 }
 
 document.querySelectorAll("form[data-contact]").forEach((form) => {
