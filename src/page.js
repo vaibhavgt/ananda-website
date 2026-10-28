@@ -35,7 +35,7 @@ document.querySelectorAll("form[data-contact]").forEach((form) => {
       );
     } catch {
       alert(
-        "No se pudo enviar el mensaje. Inténtalo de nuevo o escríbeme a hola@anandakalapatha.com.",
+        "No se pudo enviar el mensaje. Inténtalo de nuevo o escríbeme a info@anandakalapatha.com.",
       );
     } finally {
       if (submitBtn) {

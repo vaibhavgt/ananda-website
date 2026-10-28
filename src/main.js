@@ -1,111 +1,57 @@
 import "./style.css";
 
-const DESKTOP_QUERY = "(min-width: 901px)";
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xqppqnyg";
 
-/** Figma Y / artboard height (6920) — desktop scroll positions */
-const DESKTOP_RATIOS = {
-  origen: 1700 / 6920,
-  experiencias: 2580 / 6920,
-  camino: 3480 / 6920,
-  filosofia: 4820 / 6920,
-  contacto: 5700 / 6920,
-  yoga: 3000 / 6920,
-  masajes: 3000 / 6920,
-  viajes: 3000 / 6920,
+const SECTION_IDS = {
+  origen: "origen",
+  camino: "camino",
+  experiencias: "experiencias",
+  filosofia: "filosofia",
+  contacto: "contacto",
+  yoga: "experiencias",
+  masajes: "experiencias",
+  viajes: "experiencias",
 };
 
-/** Figma Y / mobile artboard height (8064 after empty-footer crop) */
-const MOBILE_RATIOS = {
-  origen: 1743 / 8064,
-  experiencias: 2833 / 8064,
-  camino: 4089 / 8064,
-  filosofia: 5088 / 8064,
-  contacto: 6153 / 8064,
-  yoga: 3111 / 8064,
-  masajes: 3418 / 8064,
-  viajes: 3728 / 8064,
-};
-
-const MOBILE_IDS = {
-  origen: "m-origen",
-  camino: "m-camino",
-  experiencias: "m-experiencias",
-  filosofia: "m-filosofia",
-  contacto: "m-contacto",
-  yoga: "m-experiencias",
-  masajes: "m-experiencias",
-  viajes: "m-experiencias",
-};
-
-function isDesktop() {
-  return window.matchMedia(DESKTOP_QUERY).matches;
+function resolveSectionId(key) {
+  if (typeof window === "undefined") return SECTION_IDS[key] || key;
+  const mobile = window.matchMedia("(max-width: 900px)").matches;
+  if (mobile) {
+    const map = {
+      origen: "m-origen",
+      camino: "m-camino",
+      experiencias: "m-experiencias",
+      filosofia: "m-filosofia",
+      contacto: "m-contacto",
+      yoga: "m-experiencias",
+      masajes: "m-experiencias",
+      viajes: "m-experiencias",
+    };
+    if (map[key]) return map[key];
+    if (key.startsWith("m-")) return key;
+  }
+  return SECTION_IDS[key] || key;
 }
 
 function logicalKey(raw) {
-  return String(raw || "").replace(/^m-/, "").replace(/^#/, "");
-}
-
-function syncLayoutVisibility() {
-  const artboard = document.querySelector(".artboard");
-  const mobile = document.querySelector(".mobile-site");
-  const mobileArtboard = document.querySelector(".artboard-mobile");
-  const desktop = isDesktop();
-
-  if (artboard) {
-    artboard.toggleAttribute("inert", !desktop);
-    artboard.setAttribute("aria-hidden", desktop ? "false" : "true");
-  }
-  if (mobile) {
-    mobile.toggleAttribute("inert", desktop);
-    mobile.setAttribute("aria-hidden", desktop ? "true" : "false");
-  }
-  if (mobileArtboard) {
-    mobileArtboard.toggleAttribute("inert", desktop);
-    mobileArtboard.setAttribute("aria-hidden", desktop ? "true" : "false");
-  }
+  return String(raw || "")
+    .replace(/^#/, "")
+    .replace(/^m-/, "");
 }
 
 function scrollToSection(rawId, { updateHash = true } = {}) {
   const key = logicalKey(rawId);
-  if (!key) return false;
+  const id = resolveSectionId(key);
+  const el = document.getElementById(id);
+  if (!el) return false;
 
   const reduceMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
   ).matches;
-  const behavior = reduceMotion ? "auto" : "smooth";
-
-  if (isDesktop()) {
-    const artboard = document.querySelector(".artboard");
-    const ratio = DESKTOP_RATIOS[key];
-    if (!artboard || ratio == null) return false;
-
-    const top = Math.max(
-      0,
-      artboard.offsetTop + artboard.offsetHeight * ratio - 8,
-    );
-    // Instant positioning — smooth scroll is unreliable on the scaled artboard
-    document.documentElement.scrollTop = top;
-    document.body.scrollTop = top;
-    window.scrollTo(0, top);
-  } else {
-    const artboard = document.querySelector(".artboard-mobile");
-    const ratio = MOBILE_RATIOS[key];
-    if (artboard && ratio != null) {
-      // Leave room above section titles so letterforms aren't clipped by the viewport edge
-      const top = Math.max(
-        0,
-        artboard.offsetTop + artboard.offsetHeight * ratio - 48,
-      );
-      document.documentElement.scrollTop = top;
-      document.body.scrollTop = top;
-      window.scrollTo(0, top);
-    } else {
-      const id = MOBILE_IDS[key] || key;
-      const el = document.getElementById(id);
-      if (!el) return false;
-      el.scrollIntoView({ behavior, block: "start" });
-    }
-  }
+  el.scrollIntoView({
+    behavior: reduceMotion ? "auto" : "smooth",
+    block: "start",
+  });
 
   if (updateHash) {
     history.replaceState(null, "", `#${key}`);
@@ -131,7 +77,7 @@ document.addEventListener("click", (event) => {
 
   const hrefAttr = link.getAttribute("href") || "";
   const hash = hashFromHref(hrefAttr);
-  if (!hash || !(hash in DESKTOP_RATIOS || hash in MOBILE_RATIOS || hash in MOBILE_IDS)) return;
+  if (!hash || !(hash in SECTION_IDS || document.getElementById(hash))) return;
 
   const sameDocument =
     hrefAttr.startsWith("#") ||
@@ -145,8 +91,6 @@ document.addEventListener("click", (event) => {
   event.preventDefault();
   scrollToSection(hash);
 });
-
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/xqppqnyg";
 
 async function handleSubmit(event) {
   event.preventDefault();
@@ -175,7 +119,7 @@ async function handleSubmit(event) {
     );
   } catch {
     alert(
-      "No se pudo enviar el mensaje. Inténtalo de nuevo o escríbeme a hola@anandakalapatha.com.",
+      "No se pudo enviar el mensaje. Inténtalo de nuevo o escríbeme a info@anandakalapatha.com.",
     );
   } finally {
     if (submitBtn) {
@@ -192,13 +136,13 @@ document.querySelectorAll("form[data-contact]").forEach((form) => {
 const menuBtn = document.querySelector("#menu-toggle");
 const menuPanel = document.querySelector("#mobile-menu");
 menuBtn?.addEventListener("click", () => {
-  const open = menuPanel?.classList.toggle("hidden") === false;
+  const open = menuPanel?.classList.toggle("is-open") === true;
   menuBtn.setAttribute("aria-expanded", String(open));
 });
 
 menuPanel?.querySelectorAll("a").forEach((link) => {
   link.addEventListener("click", () => {
-    menuPanel.classList.add("hidden");
+    menuPanel.classList.remove("is-open");
     menuBtn?.setAttribute("aria-expanded", "false");
   });
 });
@@ -206,40 +150,8 @@ menuPanel?.querySelectorAll("a").forEach((link) => {
 function scrollFromLocationHash() {
   const hash = logicalKey(window.location.hash);
   if (!hash) return;
-  // Wait for fonts/layout so artboard height is final; repeat once after paint
-  const run = () => scrollToSection(hash, { updateHash: false });
-  requestAnimationFrame(() => {
-    run();
-    setTimeout(run, 120);
-    setTimeout(run, 400);
-  });
+  requestAnimationFrame(() => scrollToSection(hash, { updateHash: false }));
 }
 
-const topnav = document.querySelector("[data-desktop-topnav]");
-
-function syncTopnav() {
-  if (!topnav) return;
-  if (!isDesktop()) {
-    topnav.classList.remove("is-visible");
-    return;
-  }
-  // Show sticky menu once the hero artboard nav scrolls away
-  const show = window.scrollY > window.innerHeight * 0.55;
-  topnav.classList.toggle("is-visible", show);
-}
-
-syncLayoutVisibility();
-syncTopnav();
-window.addEventListener("resize", () => {
-  syncLayoutVisibility();
-  syncTopnav();
-});
-window.addEventListener("scroll", syncTopnav, { passive: true });
+window.addEventListener("hashchange", scrollFromLocationHash);
 window.addEventListener("load", scrollFromLocationHash);
-window.addEventListener("hashchange", () => {
-  const hash = logicalKey(window.location.hash);
-  if (hash) scrollToSection(hash, { updateHash: false });
-});
-
-// Expose for debugging / manual QA
-window.__anandaScrollTo = scrollToSection;
