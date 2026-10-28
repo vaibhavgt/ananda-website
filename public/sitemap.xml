@@ -3,42 +3,56 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://anandakalapatha.com/</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="es" href="https://anandakalapatha.com/" />
   </url>
   <url>
+    <loc>https://anandakalapatha.com/el-camino.html</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://anandakalapatha.com/el-camino.html" />
+  </url>
+  <url>
     <loc>https://anandakalapatha.com/experiencias.html</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="es" href="https://anandakalapatha.com/experiencias.html" />
   </url>
   <url>
     <loc>https://anandakalapatha.com/yoga.html</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
     <xhtml:link rel="alternate" hreflang="es" href="https://anandakalapatha.com/yoga.html" />
   </url>
   <url>
     <loc>https://anandakalapatha.com/masajes.html</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
     <xhtml:link rel="alternate" hreflang="es" href="https://anandakalapatha.com/masajes.html" />
   </url>
   <url>
     <loc>https://anandakalapatha.com/viajes.html</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
     <xhtml:link rel="alternate" hreflang="es" href="https://anandakalapatha.com/viajes.html" />
   </url>
   <url>
+    <loc>https://anandakalapatha.com/contacto.html</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://anandakalapatha.com/contacto.html" />
+  </url>
+  <url>
     <loc>https://anandakalapatha.com/blog.html</loc>
-    <lastmod>2026-10-11</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="es" href="https://anandakalapatha.com/blog.html" />

@@ -782,6 +782,20 @@ body {
 
 .artboard-home .footer-bg ~ * {
   z-index: 2;
+  color: var(--color-beige);
+}
+
+.artboard-home .footer-bg ~ .abs a {
+  color: var(--color-beige);
+  text-decoration: none;
+}
+
+.artboard-home .footer-bg ~ .abs a:hover {
+  color: var(--color-amarillo);
+}
+
+.artboard-home .footer-bg ~ .abs img[src*="icon-"] {
+  filter: brightness(0) invert(1);
 }
 
 .page-home .mobile-chrome {
@@ -1090,6 +1104,16 @@ body {
   object-fit: cover;
 }
 
+/* Arch cards include a circular badge that must not be cropped */
+.artboard-exp .exp-card-media {
+  overflow: visible;
+  z-index: 8;
+}
+.artboard-exp .exp-card-media img {
+  object-fit: contain;
+  object-position: center top;
+}
+
 .artboard-exp .brand {
   display: flex;
   align-items: center;
@@ -1108,6 +1132,11 @@ body {
   color: var(--color-amarillo);
 }
 
+.artboard-exp .footer-bg {
+  z-index: 0;
+  pointer-events: none !important;
+}
+
 .artboard-exp .footer-nav-abs a {
   color: var(--color-beige);
   text-decoration: none;
@@ -1118,7 +1147,18 @@ body {
 }
 
 .artboard-exp .footer-bg ~ * {
-  z-index: 2;
+  z-index: 5;
+  color: var(--color-beige);
+}
+.artboard-exp .footer-bg ~ .abs a {
+  color: var(--color-beige);
+  text-decoration: none;
+}
+.artboard-exp .footer-bg ~ .abs a:hover {
+  color: var(--color-amarillo);
+}
+.artboard-exp .footer-bg ~ .abs img[src*="icon-"] {
+  filter: brightness(0) invert(1);
 }
 
 .artboard-exp .scroll-anchor {
@@ -1344,4 +1384,497 @@ body {
   font-size: 1rem;
   color: var(--color-grey);
   outline: none;
+}
+
+/* ——— Home experience hover cards (Figma 413:152 / 413:180 / viajes) ——— */
+.home-exp-card {
+  display: block;
+  overflow: visible;
+  text-decoration: none;
+  color: inherit;
+  isolation: isolate;
+  z-index: 10 !important;
+}
+
+.home-exp-card__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center top;
+  display: block;
+}
+
+.home-exp-card__texture {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 50%;
+}
+
+.home-exp-card__hover {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.home-exp-card:hover .home-exp-card__hover,
+.home-exp-card:focus-visible .home-exp-card__hover,
+.home-exp-card.is-hover-preview .home-exp-card__hover {
+  opacity: 1;
+}
+
+.home-exp-card__panel {
+  position: absolute;
+  inset: 8.2% 8.2% 9% 8.2%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 8% 7%;
+  box-sizing: border-box;
+  color: var(--color-beige);
+  z-index: 3;
+}
+
+.home-exp-card__panel--musgo {
+  background: rgba(102, 111, 86, 0.82);
+}
+
+.home-exp-card__panel--terracota {
+  background: rgba(204, 107, 78, 0.82);
+}
+
+.home-exp-card__panel--amarillo {
+  background: rgba(246, 189, 83, 0.88);
+  color: var(--color-grey);
+}
+
+.home-exp-card__num {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.2vw, 3.75rem);
+  line-height: 1;
+  opacity: 0.45;
+}
+
+.home-exp-card__title {
+  margin-top: -0.35em;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.4vw, 2.1rem);
+  line-height: 1.05;
+}
+
+.home-exp-card__kicker {
+  margin-top: 0.55rem;
+  font-family: var(--font-ui);
+  font-size: clamp(0.65rem, 1.1vw, 0.95rem);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.home-exp-card__body {
+  margin-top: 0.7rem;
+  font-family: var(--font-body);
+  font-size: clamp(0.7rem, 1.05vw, 0.95rem);
+  font-weight: 500;
+  line-height: 1.45;
+  max-width: 22em;
+}
+
+.home-exp-card__cta {
+  margin-top: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-ui);
+  font-size: clamp(0.65rem, 1.05vw, 0.9rem);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 0.15rem;
+}
+
+.home-exp-card__panel--musgo .home-exp-card__cta img,
+.home-exp-card__panel--terracota .home-exp-card__cta img {
+  filter: brightness(0) invert(1);
+}
+
+.mh-exp-card {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  color: var(--color-beige);
+  overflow: hidden;
+}
+
+.mh-exp-card img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+}
+
+.mh-exp-card__label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1.1rem 1rem 0.9rem;
+  background: linear-gradient(transparent, rgba(30, 28, 24, 0.72));
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.mh-exp-card__label strong {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-exp-card__hover {
+    transition: none;
+  }
+}
+
+/* ——— EL CAMINO artboard 1512×8692 ——— */
+.artboard-camino {
+  position: relative;
+  width: min(100vw, 1512px);
+  margin-inline: auto;
+  aspect-ratio: 1512 / 8692;
+  background: var(--color-beige);
+  overflow: hidden;
+}
+
+.artboard-camino .abs {
+  position: absolute;
+  box-sizing: border-box;
+  z-index: 5;
+}
+
+.artboard-camino .abs:not(.hit):not(a):not(nav):not(button) {
+  pointer-events: none;
+}
+
+.artboard-camino .hit,
+.artboard-camino a,
+.artboard-camino nav {
+  pointer-events: auto;
+  z-index: 20;
+}
+
+.artboard-camino .media {
+  overflow: hidden;
+  z-index: 1;
+}
+
+.artboard-camino .media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.artboard-camino .brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
+}
+
+.artboard-camino .nav-desk a {
+  color: var(--color-beige);
+  text-decoration: none;
+}
+
+.artboard-camino .nav-desk a:hover {
+  color: var(--color-amarillo);
+}
+
+.artboard-camino .footer-bg {
+  z-index: 0;
+  pointer-events: none !important;
+}
+
+.artboard-camino .footer-nav-abs a {
+  color: var(--color-beige);
+  text-decoration: none;
+}
+
+.artboard-camino .footer-bg ~ * {
+  z-index: 5;
+  color: var(--color-beige);
+}
+.artboard-camino .footer-bg ~ .abs a {
+  color: var(--color-beige);
+  text-decoration: none;
+}
+.artboard-camino .footer-bg ~ .abs a:hover {
+  color: var(--color-amarillo);
+}
+.artboard-camino .footer-bg ~ .abs img[src*="icon-"] {
+  filter: brightness(0) invert(1);
+}
+
+.page-camino .mobile-chrome {
+  display: none;
+}
+
+.mobile-camino {
+  display: none;
+}
+
+@media (min-width: 901px) {
+  .page-camino .mobile-chrome,
+  .mobile-camino {
+    display: none !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .artboard-camino {
+    display: none !important;
+  }
+
+  .page-camino .mobile-chrome {
+    display: flex;
+  }
+
+  .page-camino .mobile-menu.mobile-chrome {
+    display: none;
+  }
+
+  .page-camino .mobile-menu.mobile-chrome.is-open {
+    display: block;
+  }
+
+  .mobile-camino {
+    display: block;
+  }
+}
+
+.artboard-contact {
+  position: relative;
+  width: min(100vw, 1512px);
+  margin-inline: auto;
+  aspect-ratio: 1512 / 1565;
+  background: var(--color-beige);
+  overflow: hidden;
+}
+.artboard-contact .abs { position: absolute; box-sizing: border-box; z-index: 5; }
+.artboard-contact .abs:not(.hit):not(a):not(nav):not(form):not(button):not(input):not(textarea):not(label) { pointer-events: none; }
+.artboard-contact .hit, .artboard-contact a, .artboard-contact nav, .artboard-contact form, .artboard-contact button, .artboard-contact input, .artboard-contact textarea, .artboard-contact label { pointer-events: auto; z-index: 20; }
+.artboard-contact .media { overflow: hidden; z-index: 1; }
+.artboard-contact .media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.artboard-contact .brand { display: flex; align-items: center; gap: 0.65rem; text-decoration: none; }
+.artboard-contact .nav-desk a { color: var(--color-beige); text-decoration: none; }
+.artboard-contact .footer-nav-abs a { color: var(--color-beige); text-decoration: none; }
+.artboard-contact .footer-bg { z-index: 0; pointer-events: none !important; }
+.artboard-contact .footer-bg ~ * { z-index: 5; color: var(--color-beige); }
+.artboard-contact .footer-bg ~ .abs a { color: var(--color-beige); text-decoration: none; }
+.artboard-contact .footer-bg ~ .abs a:hover { color: var(--color-amarillo); }
+.artboard-contact .footer-bg ~ .abs img[src*="icon-"] { filter: brightness(0) invert(1); }
+.page-contact .mobile-chrome { display: none; }
+.mobile-contact { display: none; }
+@media (min-width: 901px) {
+  .page-contact .mobile-chrome, .mobile-contact { display: none !important; }
+}
+@media (max-width: 900px) {
+  .artboard-contact { display: none !important; }
+  .page-contact .mobile-chrome { display: flex; }
+  .page-contact .mobile-menu.mobile-chrome { display: none; }
+  .page-contact .mobile-menu.mobile-chrome.is-open { display: block; }
+  .mobile-contact { display: block; }
+}
+
+.exp-block { padding: clamp(3rem, 7vw, 5rem) 0; }
+.exp-block__img {
+  display: block;
+  width: 100%;
+  margin-top: 2rem;
+  max-height: 34rem;
+  object-fit: cover;
+}
+.exp-pillars { max-width: 48rem; }
+
+/* Yoga / Masajes / Viajes — structured absolute artboards (real HTML, not raster) */
+.artboard-yoga,
+.artboard-masaje,
+.artboard-viajes {
+  position: relative;
+  width: min(100vw, 1512px);
+  margin-inline: auto;
+  background: var(--color-beige);
+  overflow: hidden;
+}
+.artboard-yoga .abs,
+.artboard-masaje .abs,
+.artboard-viajes .abs {
+  position: absolute;
+  box-sizing: border-box;
+  z-index: 5;
+}
+.artboard-yoga .abs:not(.hit):not(a):not(nav):not(form):not(button):not(input),
+.artboard-masaje .abs:not(.hit):not(a):not(nav):not(form):not(button):not(input),
+.artboard-viajes .abs:not(.hit):not(a):not(nav):not(form):not(button):not(input) {
+  pointer-events: none;
+}
+.artboard-yoga .hit,
+.artboard-yoga a,
+.artboard-yoga nav,
+.artboard-yoga form,
+.artboard-yoga button,
+.artboard-yoga input,
+.artboard-masaje .hit,
+.artboard-masaje a,
+.artboard-masaje nav,
+.artboard-masaje form,
+.artboard-masaje button,
+.artboard-masaje input,
+.artboard-viajes .hit,
+.artboard-viajes a,
+.artboard-viajes nav,
+.artboard-viajes form,
+.artboard-viajes button,
+.artboard-viajes input {
+  pointer-events: auto;
+  z-index: 20;
+}
+.artboard-yoga .media,
+.artboard-masaje .media,
+.artboard-viajes .media {
+  overflow: hidden;
+  z-index: 1;
+}
+.artboard-yoga .media img,
+.artboard-masaje .media img,
+.artboard-viajes .media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.artboard-yoga .brand,
+.artboard-masaje .brand,
+.artboard-viajes .brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
+}
+.artboard-yoga .nav-desk a,
+.artboard-masaje .nav-desk a,
+.artboard-viajes .nav-desk a {
+  color: inherit;
+  text-decoration: none;
+}
+.artboard-yoga .nav-desk a:hover,
+.artboard-masaje .nav-desk a:hover,
+.artboard-viajes .nav-desk a:hover {
+  color: var(--color-amarillo);
+}
+.artboard-yoga .footer-nav-abs a,
+.artboard-masaje .footer-nav-abs a,
+.artboard-viajes .footer-nav-abs a {
+  color: var(--color-beige);
+  text-decoration: none;
+}
+.artboard-yoga .footer-bg,
+.artboard-masaje .footer-bg,
+.artboard-viajes .footer-bg {
+  z-index: 0;
+  pointer-events: none !important;
+}
+.artboard-yoga .footer-bg ~ *,
+.artboard-masaje .footer-bg ~ *,
+.artboard-viajes .footer-bg ~ * {
+  z-index: 5;
+  color: var(--color-beige);
+}
+.artboard-yoga .footer-bg ~ .abs a,
+.artboard-masaje .footer-bg ~ .abs a,
+.artboard-viajes .footer-bg ~ .abs a {
+  color: var(--color-beige);
+  text-decoration: none;
+}
+.artboard-yoga .footer-bg ~ .abs a:hover,
+.artboard-masaje .footer-bg ~ .abs a:hover,
+.artboard-viajes .footer-bg ~ .abs a:hover {
+  color: var(--color-amarillo);
+}
+.artboard-yoga .footer-bg ~ .abs img[src*="icon-"],
+.artboard-masaje .footer-bg ~ .abs img[src*="icon-"],
+.artboard-viajes .footer-bg ~ .abs img[src*="icon-"] {
+  filter: brightness(0) invert(1);
+}
+.artboard-yoga .scroll-anchor,
+.artboard-masaje .scroll-anchor,
+.artboard-viajes .scroll-anchor {
+  pointer-events: none;
+}
+
+.page-yoga .mobile-chrome,
+.page-masaje .mobile-chrome,
+.page-viajes .mobile-chrome {
+  display: none;
+}
+.mobile-yoga,
+.mobile-masaje,
+.mobile-viajes {
+  display: none;
+}
+
+@media (min-width: 901px) {
+  .page-yoga .mobile-chrome,
+  .page-masaje .mobile-chrome,
+  .page-viajes .mobile-chrome,
+  .mobile-yoga,
+  .mobile-masaje,
+  .mobile-viajes {
+    display: none !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .artboard-yoga,
+  .artboard-masaje,
+  .artboard-viajes {
+    display: none !important;
+  }
+  .page-yoga .mobile-chrome,
+  .page-masaje .mobile-chrome,
+  .page-viajes .mobile-chrome {
+    display: flex;
+  }
+  .page-yoga .mobile-menu.mobile-chrome,
+  .page-masaje .mobile-menu.mobile-chrome,
+  .page-viajes .mobile-menu.mobile-chrome {
+    display: none;
+  }
+  .page-yoga .mobile-menu.mobile-chrome.is-open,
+  .page-masaje .mobile-menu.mobile-chrome.is-open,
+  .page-viajes .mobile-menu.mobile-chrome.is-open {
+    display: block;
+  }
+  .mobile-yoga,
+  .mobile-masaje,
+  .mobile-viajes {
+    display: block;
+  }
 }
